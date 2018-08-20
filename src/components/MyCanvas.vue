@@ -1,6 +1,7 @@
 <template>
 	<svg id="my-svg" v-bind:width="panelWidth" v-bind:height="panelHeight">
-		<g v-for="(item, index) in data" class="bar" shape-rendering="crispEdges">
+		<g v-for="(item, index) in data" class="bar" shape-rendering="crispEdges"
+			v-bind:class="{ selected: index === 3 }">
 			<rect v-bind="{ 'x':index*barWidth, 'y':panelHeight-item*heightRatio }" v-bind:width="barWidth" v-bind:height="item*heightRatio"/>
     	</g>
 	</svg>
@@ -55,5 +56,6 @@ export default {
 </script>
 
 <style scoped>
-	.bar { fill: tomato }
+	.bar { fill: gold }
+	.selected { fill: lightskyblue }
 </style>

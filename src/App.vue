@@ -1,11 +1,13 @@
 <template>
 	<div id="app">
 		<div id="canvasPanel" class="panel">
-			<div style="height: 100%; width: 100%;"><my-canvas /></div>
+			<div class="holder"><my-canvas /></div>
 		</div>
-		<div id="dataPanel" class="panel">
+		<div id="algorithmPanel" class="panel" style="padding-top: 0;">
+			<div class="holder"></div>
 		</div>
-		<div id="algorithmPanel" class="panel">
+		<div id="dataPanel" class="panel" style="padding-top: 0;">
+			<div class="holder"></div>
 		</div>
 	</div>
 </template>
@@ -34,22 +36,27 @@ html, body { width: 100%; height: 100%; padding: 0; margin: 0; }
 	overflow: hidden;
 }
 #canvasPanel {
-	height: 70%;
-	width: 80%;
-	padding: 0;
+	height: 65%;
+	width: 100%;
 }
 #dataPanel {
-	height: 70%;
-	width: 20%;
+	height: 35%;
+	width: 30%;
 }
 #algorithmPanel {
-	height: 30%;
-	width: 100%;
+	height: 35%;
+	width: 70%;
 }
 .panel {
 	float: left;
 	box-sizing: border-box;
 	padding: 10px;
-	border: 1px solid silver;
+}
+.holder {
+	width: 100%;
+	height: 100%;
+	border: 1px solid coral;
+	border-radius: 10px;
+	overflow: hidden;
 }
 </style>
