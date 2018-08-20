@@ -1,7 +1,7 @@
 <template>
 	<svg id="my-svg" v-bind:width="panelWidth" v-bind:height="panelHeight">
-		<g v-for="(item, index) in data" class="bar">
-			<rect v-bind="{ 'x':index*barWidth, 'y':panelHeight-item*heightRatio }" v-bind:width="barWidth+0.3" v-bind:height="item*heightRatio"/>
+		<g v-for="(item, index) in data" class="bar" shape-rendering="crispEdges">
+			<rect v-bind="{ 'x':index*barWidth, 'y':panelHeight-item*heightRatio }" v-bind:width="barWidth" v-bind:height="item*heightRatio"/>
     	</g>
 	</svg>
 </template>
