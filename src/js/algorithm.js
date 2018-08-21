@@ -1,13 +1,16 @@
 const algorithms = {
 	bubbleSort: async function(arr, swapFn) {
-		let m = arr.length-1
-		for (let i = 0; i < arr.length; i++) {
-			let n = 0
-			while (n < m) {
-				if (arr[n] > arr[n+1]) await swapFn(n, n+1)
-				n+=1
+		let pivot = arr.length-1
+		let isSorted = false
+		while(!isSorted) {
+			isSorted = true
+			for (let i = 0; i < pivot; i++) {
+				if (arr[i] > arr[i+1]) {
+					await swapFn(i, i+1)
+					isSorted = false
+				}
 			}
-			m-=1
+			pivot--
 		}
 		return true
 	}
