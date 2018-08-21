@@ -3,10 +3,10 @@
 		<div id="canvasPanel" class="panel">
 			<div class="holder"><my-canvas ref="MyCanvas"/></div>
 		</div>
-		<div id="algorithmPanel" class="panel" style="padding-top: 0;">
+		<div id="algorithmPanel" class="panel">
 			<div class="holder"><algorithm ref="Algorithm"/></div>
 		</div>
-		<div id="dataPanel" class="panel" style="padding-top: 0;">
+		<div id="dataPanel" class="panel">
 			<div class="holder"></div>
 		</div>
 	</div>
@@ -41,6 +41,8 @@ html, body { width: 100%; height: 100%; padding: 0; margin: 0; }
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+	padding: 5px;
+	box-sizing: border-box;
 }
 #canvasPanel {
 	height: 65%;
@@ -57,7 +59,7 @@ html, body { width: 100%; height: 100%; padding: 0; margin: 0; }
 .panel {
 	float: left;
 	box-sizing: border-box;
-	padding: 10px;
+	padding: 5px;
 }
 .holder {
 	width: 100%;
