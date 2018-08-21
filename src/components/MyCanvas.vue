@@ -41,8 +41,8 @@ export default {
 				randomIndex = (Math.random() * array.length)|0
 				currentIndex -= 1;
 				await this.swap(randomIndex, currentIndex)
-				this.data = array
 			}
+			this.data = array
 			return new Promise((resolve) => {
 				resolve(0)
 			})
