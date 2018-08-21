@@ -1,10 +1,10 @@
 <template>
 	<div id="app">
 		<div id="canvasPanel" class="panel">
-			<div class="holder"><my-canvas /></div>
+			<div class="holder"><my-canvas ref="MyCanvas"/></div>
 		</div>
 		<div id="algorithmPanel" class="panel" style="padding-top: 0;">
-			<div class="holder"></div>
+			<div class="holder"><algorithm ref="Algorithm"/></div>
 		</div>
 		<div id="dataPanel" class="panel" style="padding-top: 0;">
 			<div class="holder"></div>
@@ -14,11 +14,18 @@
 
 <script>
 import MyCanvas from './components/MyCanvas'
+import Algorithm from './components/Algorithm'
 
 export default {
 	name: 'App',
 	components: {
-		MyCanvas
+		MyCanvas,
+		Algorithm
+	},
+	mounted: async function() {
+		await this.$refs.MyCanvas.shuffle()
+		let selected = this.$refs.Algorithm.getSelected()
+		if (await selected(this.$refs.MyCanvas.data, this.$refs.MyCanvas.swap)) alert('done')
 	}
 }
 </script>
