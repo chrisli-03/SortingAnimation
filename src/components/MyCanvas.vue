@@ -24,7 +24,7 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 30
+			speed: 10
 		}
 	},
 	methods: {
@@ -38,12 +38,11 @@ export default {
 			let array = this.data
 			let currentIndex = array.length, temporaryValue, randomIndex;
 			while (0 !== currentIndex) {
-				randomIndex = Math.floor(Math.random() * currentIndex);
+				randomIndex = (Math.random() * array.length)|0;
 				currentIndex -= 1;
 				await this.swap(randomIndex, currentIndex)
 			}
 			this.data = array
-			this.speed = 20
 			return new Promise((resolve) => {
 				resolve(0)
 			})
@@ -64,7 +63,7 @@ export default {
 						clearInterval(interval)
 						resolve(0)
 					}
-				}, 1000/60)
+				}, 1)
 			})
 		}
 	},
@@ -78,7 +77,7 @@ export default {
 	},
 	mounted: function() {
 		let newData = this.data
-		for (let i = 0; i < 200; i++) {
+		for (let i = 0; i < 500; i++) {
 			newData.push(i)
 		}
 		this.data = newData
