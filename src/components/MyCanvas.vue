@@ -24,7 +24,7 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 10
+			speed: 50
 		}
 	},
 	methods: {
@@ -36,9 +36,9 @@ export default {
 		},
 		async shuffle() {
 			let array = this.data
-			let currentIndex = array.length, temporaryValue, randomIndex;
+			let currentIndex = array.length, temporaryValue, randomIndex
 			while (0 !== currentIndex) {
-				randomIndex = (Math.random() * array.length)|0;
+				randomIndex = (Math.random() * array.length)|0
 				currentIndex -= 1;
 				await this.swap(randomIndex, currentIndex)
 			}
@@ -51,19 +51,28 @@ export default {
 			this.m = Math.min(m, n)
 			this.n = Math.max(m, n)
 			let _this = this
+			let done = Math.abs(_this.m - _this.n)
+			let speed = done/_this.speed
 			return new Promise((resolve) => {
-				let done = Math.abs(_this.m - _this.n)
-				let interval = setInterval(() => {
-					if (_this.diff < done) _this.diff = Math.min(_this.diff+this.speed, done)
-					else {
-						[_this.data[_this.m], _this.data[_this.n]] = [_this.data[_this.n], _this.data[_this.m]]
-						_this.m = -1
-						_this.n = -1
-						_this.diff = 0
-						clearInterval(interval)
-						resolve(0)
-					}
-				}, 1)
+				if (_this.diff+speed >= done) {
+					[_this.data[_this.m], _this.data[_this.n]] = [_this.data[_this.n], _this.data[_this.m]]
+					_this.m = -1
+					_this.n = -1
+					_this.diff = 0
+					resolve(0)
+				} else {
+					let interval = setInterval(() => {
+						if (_this.diff < done) _this.diff = Math.min(_this.diff+speed, done)
+						else {
+							[_this.data[_this.m], _this.data[_this.n]] = [_this.data[_this.n], _this.data[_this.m]]
+							_this.m = -1
+							_this.n = -1
+							_this.diff = 0
+							clearInterval(interval)
+							resolve(0)
+						}
+					}, 1)
+				}
 			})
 		}
 	},
@@ -77,7 +86,7 @@ export default {
 	},
 	mounted: function() {
 		let newData = this.data
-		for (let i = 0; i < 500; i++) {
+		for (let i = 0; i < 100; i++) {
 			newData.push(i)
 		}
 		this.data = newData
