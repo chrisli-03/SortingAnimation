@@ -24,7 +24,7 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 100
+			speed: 30
 		}
 	},
 	methods: {
@@ -43,7 +43,7 @@ export default {
 				await this.swap(randomIndex, currentIndex)
 			}
 			this.data = array
-			this.speed = 40
+			this.speed = 20
 			return new Promise((resolve) => {
 				resolve(0)
 			})
@@ -55,7 +55,7 @@ export default {
 			return new Promise((resolve) => {
 				let done = Math.abs(_this.m - _this.n)
 				let interval = setInterval(() => {
-					if (_this.diff < done) _this.diff += this.speed
+					if (_this.diff < done) _this.diff = Math.min(_this.diff+this.speed, done)
 					else {
 						[_this.data[_this.m], _this.data[_this.n]] = [_this.data[_this.n], _this.data[_this.m]]
 						_this.m = -1
@@ -78,7 +78,7 @@ export default {
 	},
 	mounted: function() {
 		let newData = this.data
-		for (let i = 0; i < 1000; i++) {
+		for (let i = 0; i < 200; i++) {
 			newData.push(i)
 		}
 		this.data = newData
