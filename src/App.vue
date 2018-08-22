@@ -23,7 +23,7 @@ export default {
 		Algorithm
 	},
 	mounted: async function() {
-		await this.$refs.MyCanvas.shuffle()
+		await this.$refs.MyCanvas.shuffleInst()
 		let selected = this.$refs.Algorithm.getSelected()
 		if (await selected(this.$refs.MyCanvas.data, this.$refs.MyCanvas.swap)) alert('done')
 	}
