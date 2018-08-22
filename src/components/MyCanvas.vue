@@ -99,9 +99,12 @@ export default {
 	},
 	mounted: function() {
 		let newData = this.data
-		for (let i = 0; i < 5000; i++) {
+		for (let i = 0; i < 2000; i++) {
 			newData.push(i)
 		}
+		/* for (let i = 0; i < 2000; i++) {
+			newData.push((Math.random() * 20 + 1)|0)
+		} */
 		this.data = newData
 		window.addEventListener('resize', this.onResize)
 		this.onResize()

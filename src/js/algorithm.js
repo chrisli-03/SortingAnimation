@@ -1,25 +1,39 @@
-async function partition(arr, pivot, left, right, swapFn) {
-	let pivotValue = arr[pivot],
-		partitionIndex = left;
+function isSort(arr, left, right) {
+	while (left < right) {
+		if (arr[left] > arr[++left]) return false
+	}
+	return true
+}
 
-	for (let i = left; i < right; i++) {
-		if (arr[i] < pivotValue) {
-			await swapFn(i, partitionIndex)
-			partitionIndex++
+async function partition(arr, pivot, left, right, swapFn) {
+	if (isSort(arr, left, right)) return -1
+	let pivotVal = arr[pivot]
+	while (left < right) {
+		// find value on left side greater or equal to pivot
+		while (arr[left] < pivotVal && left < right) {
+			left++
+		}
+		// find value on right side less or equal to pivot
+		while (arr[right] > pivotVal && right > left) {
+			right--
+		}
+		if (left < right) { // left and right hasnt collide
+			await swapFn(left, right)
+			// break infinite loop when swapping elements of same value
+			if (arr[left] === arr[right]) right--
 		}
 	}
-	await swapFn(right, partitionIndex)
-	return partitionIndex
+	return left
 }
 
 async function quickSortHelper(arr, swapFn, left, right) {
+	if (left >= right) return
 	let len = arr.length,
-		pivot,
-		partitionIndex
-	if (left < right) {
-		pivot = right;
-		partitionIndex = await partition(arr, pivot, left, right, swapFn)
-		await quickSortHelper(arr, swapFn, left, partitionIndex - 1)
+			pivot = (left/2 + right/2)|0
+	let partitionIndex = await partition(arr, pivot, left, right, swapFn)
+	console.log(partitionIndex)
+	if (partitionIndex > -1) {
+		await quickSortHelper(arr, swapFn, left, partitionIndex)
 		await quickSortHelper(arr, swapFn, partitionIndex + 1, right)
 	}
 }
