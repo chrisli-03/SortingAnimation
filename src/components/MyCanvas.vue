@@ -24,7 +24,7 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 1.001
+			speed: 1.01
 		}
 	},
 	methods: {
