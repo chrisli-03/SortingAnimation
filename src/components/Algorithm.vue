@@ -7,7 +7,7 @@ import algorithms from '../js/algorithm.js'
 export default {
 	data () {
 	    return {
-			selected: 'quickSort'
+			selected: 'selectionSort'
 		}
 	},
 	methods: {
