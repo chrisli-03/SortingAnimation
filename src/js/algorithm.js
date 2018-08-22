@@ -39,6 +39,28 @@ async function quickSortHelper(arr, swapFn, left, right) {
 }
 
 const algorithms = {
+	insertionSort: async function(arr, swapFn) {
+		for (let i = 1; i < arr.length; i++) {
+			let pivot = i
+			for (let j = i-1; j >= 0; j--) {
+				if (arr[j] > arr[pivot]) {
+					await swapFn(pivot, j)
+					pivot = j
+				}
+			}
+		}
+	},
+	selectionSort: async function(arr, swapFn) {
+		for (let i = 0; i < arr.length-1; i++) {
+			let min = i
+			for (let j = i; j < arr.length; j++) {
+				if (arr[min] > arr[j]) {
+					min = j
+				}
+			}
+			if (min !== i) await swapFn(i, min)
+		}
+	},
 	bubbleSort: async function(arr, swapFn) {
 		let pivot = arr.length-1
 		let isSorted = false

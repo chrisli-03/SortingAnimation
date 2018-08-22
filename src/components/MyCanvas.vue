@@ -24,7 +24,7 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 1.01
+			speed: 5
 		}
 	},
 	methods: {
@@ -84,7 +84,7 @@ export default {
 							clearInterval(interval)
 							resolve(0)
 						}
-					}, 1)
+					}, 1000/60)
 				}
 			})
 		}
@@ -99,12 +99,12 @@ export default {
 	},
 	mounted: function() {
 		let newData = this.data
-		for (let i = 0; i < 2000; i++) {
+		/* for (let i = 0; i < 100; i++) {
 			newData.push(i)
-		}
-		/* for (let i = 0; i < 2000; i++) {
-			newData.push((Math.random() * 20 + 1)|0)
 		} */
+		for (let i = 0; i < 100; i++) {
+			newData.push((Math.random() * 10 + 1)|0)
+		}
 		this.data = newData
 		window.addEventListener('resize', this.onResize)
 		this.onResize()
