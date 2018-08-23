@@ -31,7 +31,6 @@ async function quickSortHelper(arr, swapFn, left, right) {
 	let len = arr.length,
 			pivot = (left/2 + right/2)|0
 	let partitionIndex = await partition(arr, pivot, left, right, swapFn)
-	console.log(partitionIndex)
 	if (partitionIndex > -1) {
 		await quickSortHelper(arr, swapFn, left, partitionIndex)
 		await quickSortHelper(arr, swapFn, partitionIndex + 1, right)
@@ -49,6 +48,7 @@ const algorithms = {
 				}
 			}
 		}
+		return true
 	},
 	selectionSort: async function(arr, swapFn) {
 		for (let i = 0; i < arr.length-1; i++) {
@@ -58,8 +58,9 @@ const algorithms = {
 					min = j
 				}
 			}
-			if (min !== i) await swapFn(i, min)
+			await swapFn(i, min)
 		}
+		return true
 	},
 	bubbleSort: async function(arr, swapFn) {
 		let pivot = arr.length-1

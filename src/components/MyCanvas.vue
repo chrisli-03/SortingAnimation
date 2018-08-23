@@ -24,7 +24,7 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 5
+			speed: 10
 		}
 	},
 	methods: {
@@ -99,12 +99,15 @@ export default {
 	},
 	mounted: function() {
 		let newData = this.data
-		/* for (let i = 0; i < 100; i++) {
+		for (let i = 1; i < 100; i++) {
 			newData.push(i)
 		} */
 		for (let i = 0; i < 100; i++) {
 			newData.push((Math.random() * 10 + 1)|0)
 		}
+		/* for (let i = 0; i < 100; i++) {
+			newData.push((Math.random() * 10 + 1)|0)
+		} */
 		this.data = newData
 		window.addEventListener('resize', this.onResize)
 		this.onResize()
@@ -119,4 +122,5 @@ export default {
 	.bar { fill: gold }
 	.selected { fill: lightskyblue }
 	.hidden { fill: transparent }
+	#my-svg { background-color: white; }
 </style>
