@@ -1,3 +1,54 @@
+async function insertionSortHelper(arr, swapFn) {
+	for (let i = 1; i < arr.length; i++) {
+		let pivot = i
+		for (let j = i-1; j >= 0; j--) {
+			if (arr[j] > arr[pivot]) {
+				await swapFn(pivot, j)
+				pivot = j
+			}
+		}
+	}
+}
+
+async function selectionSortHelper(arr, swapFn) {
+	for (let i = 0; i < arr.length-1; i++) {
+		let min = i
+		for (let j = i; j < arr.length; j++) {
+			if (arr[min] > arr[j]) {
+				min = j
+			}
+		}
+		await swapFn(i, min)
+	}
+}
+
+async function bubbleSortHelper(arr, swapFn) {
+	let pivot = arr.length-1
+	let isSorted = false
+	while(!isSorted) {
+		isSorted = true
+		for (let i = 0; i < pivot; i++) {
+			if (arr[i] > arr[i+1]) {
+				await swapFn(i, i+1)
+				isSorted = false
+			}
+		}
+		pivot--
+	}
+}
+
+async function cocktailShakerSortHelper(arr, swapFn) {
+	let left = -1, right = arr.length
+	while (++left < --right) { // pointers havent collide
+		for (let i = left; i < right; i++) { // move largest element to right
+			if (arr[i] > arr[i+1]) await swapFn(i, i+1)
+		}
+		for (let i = right; i > left; i--) { // move smallest element to left
+			if (arr[i] < arr[i-1]) await swapFn(i, i-1)
+		}
+	}
+}
+
 function isSort(arr, left, right) {
 	while (left < right) {
 		if (arr[left] > arr[++left]) return false
@@ -65,50 +116,27 @@ async function mergeSortIPHelper(arr, swapFn, left, right) {
 }
 
 const algorithms = {
-	insertionSort: async function(arr, swapFn) {
-		for (let i = 1; i < arr.length; i++) {
-			let pivot = i
-			for (let j = i-1; j >= 0; j--) {
-				if (arr[j] > arr[pivot]) {
-					await swapFn(pivot, j)
-					pivot = j
-				}
-			}
-		}
+	async insertionSort(arr, swapFn) {
+		await insertionSortHelper(arr, swapFn)
 		return true
 	},
-	selectionSort: async function(arr, swapFn) {
-		for (let i = 0; i < arr.length-1; i++) {
-			let min = i
-			for (let j = i; j < arr.length; j++) {
-				if (arr[min] > arr[j]) {
-					min = j
-				}
-			}
-			await swapFn(i, min)
-		}
+	async selectionSort(arr, swapFn) {
+		await selectionSortHelper(arr, swapFn)
 		return true
 	},
-	bubbleSort: async function(arr, swapFn) {
-		let pivot = arr.length-1
-		let isSorted = false
-		while(!isSorted) {
-			isSorted = true
-			for (let i = 0; i < pivot; i++) {
-				if (arr[i] > arr[i+1]) {
-					await swapFn(i, i+1)
-					isSorted = false
-				}
-			}
-			pivot--
-		}
+	async bubbleSort(arr, swapFn) {
+		await bubbleSortHelper(arr, swapFn)
 		return true
 	},
-	quickSort: async function(arr, swapFn) {
+	async cocktailShakerSort(arr, swapFn) {
+		await cocktailShakerSortHelper(arr, swapFn)
+		return true
+	},
+	async quickSort(arr, swapFn) {
 		await quickSortHelper(arr, swapFn, 0, arr.length-1)
 		return true
 	},
-	mergeSortIP: async function(arr, swapFn) {
+	async mergeSortIP(arr, swapFn) {
 		await mergeSortIPHelper(arr, swapFn, 0, arr.length-1)
 		return true
 	}

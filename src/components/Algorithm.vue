@@ -41,7 +41,7 @@ export default {
 							name: 'CocktailShakerSort',
 							algorithm: 'cocktailShakerSort',
 							averageTime: '',
-							disabled: true
+							disabled: false
 						},{
 							name: 'QuickSort',
 							algorithm: 'quickSort',
