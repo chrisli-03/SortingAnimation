@@ -48,10 +48,10 @@ export default {
 							averageTime: '',
 							disabled: false
 						},{
-							name: 'MergeSort',
-							algorithm: 'mergeSort',
+							name: 'MergeSort(IP)',
+							algorithm: 'mergeSortIP',
 							averageTime: '',
-							disabled: true
+							disabled: false
 						},{
 							name: 'HeapSort',
 							algorithm: 'heapSort',

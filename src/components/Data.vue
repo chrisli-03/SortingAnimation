@@ -22,7 +22,6 @@ export default {
 	},
 	methods: {
 		generateData() {
-			console.log(this.repeatition)
 			if (this.dataSize > 1000) {
 				if (confirm('Too much data can cause massive lag\nare you sure you want to continue?')) {
 
@@ -48,7 +47,6 @@ export default {
 					}
 					break;
 			}
-			console.log(data)
 			eventBus.$emit('generateData', data)
 		}
 	}
