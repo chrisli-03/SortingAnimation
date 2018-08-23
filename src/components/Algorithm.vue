@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import algorithms from '@/js/algorithm.js'
+import algorithms from '@/js/Algorithm.js'
 import eventBus from '@/js/EventBus'
 export default {
 	data () {
@@ -41,7 +41,7 @@ export default {
 							name: 'CocktailShakerSort',
 							algorithm: 'cocktailShakerSort',
 							averageTime: '',
-							disabled: true
+							disabled: false
 						},{
 							name: 'QuickSort',
 							algorithm: 'quickSort',

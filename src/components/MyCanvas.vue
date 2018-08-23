@@ -25,7 +25,7 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 10,
+			speed: 2,
 			sorting: false
 		}
 	},
@@ -99,7 +99,7 @@ export default {
 							clearInterval(interval)
 							resolve(0)
 						}
-					}, 1000/60)
+					}, 1000/240)
 				}
 			})
 		}
