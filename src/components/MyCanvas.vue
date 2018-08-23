@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import eventBus from '@/js/EventBus'
 export default {
 	data () {
 	    return {
@@ -24,7 +25,8 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 10
+			speed: 10,
+			sorting: false
 		}
 	},
 	methods: {
@@ -35,6 +37,11 @@ export default {
 			this.maxHeight = Math.max(...this.data)
 		},
 		async shuffle() {
+			if (this.sorting) {
+				alert('Can\'t shuffle while sorting')
+				return
+			}
+			this.sorting = true
 			let array = this.data
 			let currentIndex = array.length-1, randomIndex
 			while (currentIndex > -1) {
@@ -42,12 +49,17 @@ export default {
 				await this.swap(randomIndex, currentIndex)
 				currentIndex -= 1
 			}
-			this.data = array
+			let _this = this
 			return new Promise((resolve) => {
+				_this.sorting = false
 				resolve(0)
 			})
 		},
 		shuffleInst() {
+			if (this.sorting) {
+				alert('Can\'t shuffle while sorting')
+				return
+			}
 			let array = this.data
 			let currentIndex = array.length-1, randomIndex
 			let promise = new Promise((resolve) => {
@@ -58,6 +70,9 @@ export default {
 				}
 				resolve(0)
 			})
+			this.data = array
+			this.m = -2 // change something in data to trigger vue to reload graph
+			this.m = -1
 			promise.then(() => { return })
 		},
 		swap(m, n) {
@@ -90,14 +105,14 @@ export default {
 		}
 	},
 	computed: {
-		barWidth: function() {
+		barWidth() {
 			return this.panelWidth/this.data.length
 		},
-		heightRatio: function() {
+		heightRatio() {
 			return this.panelHeight/this.maxHeight
 		}
 	},
-	mounted: function() {
+	mounted() {
 		let newData = this.data
 		for (let i = 1; i < 100; i++) {
 			newData.push(i)
@@ -109,7 +124,15 @@ export default {
 		window.addEventListener('resize', this.onResize)
 		this.onResize()
 	},
-	beforeDestroy: function() {
+	created() {
+		eventBus.$on('sort', id => {
+			this.sorting = true
+		})
+		eventBus.$on('sorted', id => {
+			this.sorting = false
+		})
+	},
+	beforeDestroy() {
 		window.removeEventListener('resize', this.onResize)
 	}
 }
