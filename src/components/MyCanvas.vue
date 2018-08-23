@@ -113,14 +113,6 @@ export default {
 		}
 	},
 	mounted() {
-		let newData = this.data
-		for (let i = 1; i < 100; i++) {
-			newData.push(i)
-		}
-		/* for (let i = 0; i < 100; i++) {
-			newData.push((Math.random() * 10 + 1)|0)
-		} */
-		this.data = newData
 		window.addEventListener('resize', this.onResize)
 		this.onResize()
 	},
@@ -130,6 +122,14 @@ export default {
 		})
 		eventBus.$on('sorted', id => {
 			this.sorting = false
+		})
+		eventBus.$on('generateData', data => {
+			if (this.sorting) {
+				alert('Can\'t change data while sorting')
+				return
+			}
+			this.data = data
+			this.onResize() // call onResize to make the bars right size
 		})
 	},
 	beforeDestroy() {
