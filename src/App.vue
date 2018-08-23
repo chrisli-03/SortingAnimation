@@ -13,9 +13,10 @@
 </template>
 
 <script>
-import MyCanvas from './components/MyCanvas'
-import Algorithm from './components/Algorithm'
-import MyData from './components/Data'
+import MyCanvas from '@/components/MyCanvas'
+import Algorithm from '@/components/Algorithm'
+import MyData from '@/components/Data'
+import eventBus from '@/js/EventBus'
 
 export default {
 	name: 'App',
@@ -28,6 +29,11 @@ export default {
 		await this.$refs.MyCanvas.shuffleInst()
 		// let selected = this.$refs.Algorithm.getAlgorithm()
 		// if (await selected(this.$refs.MyCanvas.data, this.$refs.MyCanvas.swap)) alert('done')
+	},
+	created() {
+		eventBus.$on('sort', id => {
+			console.log(id)
+		})
 	}
 }
 </script>

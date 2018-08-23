@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import algorithms from '../js/algorithm.js'
+import algorithms from '@/js/algorithm.js'
+import eventBus from '@/js/EventBus'
 export default {
 	data () {
     return {
@@ -97,6 +98,7 @@ export default {
 		},
 		changeAlgorithm(algorithm) {
 			if (!algorithm.disabled) this.selected = algorithm.algorithm
+			eventBus.$emit('sort', 0)
 		}
 	}
 }
