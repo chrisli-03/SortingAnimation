@@ -54,6 +54,10 @@ export default {
 				_this.sorting = false
 				resolve(0)
 			})
+			this.data = array
+			this.m = -2 // change something in data to trigger vue to reload graph
+			this.m = -1
+			promise.then(() => { return })
 		},
 		shuffleInst() {
 			if (this.sorting) {
@@ -113,8 +117,11 @@ export default {
 		}
 	},
 	mounted() {
+		for (let i = 1; i <= 100; i++) {
+			this.data.push(i)
+		}
 		window.addEventListener('resize', this.onResize)
-		this.onResize()
+		this.onResize() // call onResize to make the bars right size
 	},
 	created() {
 		eventBus.$on('sort', id => {
@@ -129,7 +136,6 @@ export default {
 				return
 			}
 			this.data = data
-			this.onResize() // call onResize to make the bars right size
 		})
 	},
 	beforeDestroy() {
