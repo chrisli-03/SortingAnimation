@@ -1,6 +1,8 @@
 <template>
 	<div id="algorithmPanel">
 		<div class="actionBar">
+			<div class="actionBar_btn" v-on:click="initShuffle">S</div>
+			<div class="actionBar_btn" v-on:click="initSort">></div>
 		</div>
 		<div class="algorithmBar">
 			<div class="algorithmBar_btn" v-for="(item, index) in data"
@@ -13,11 +15,13 @@
 </template>
 
 <script>
-import algorithms from '../js/algorithm.js'
+import algorithms from '@/js/algorithm.js'
+import eventBus from '@/js/EventBus'
 export default {
 	data () {
     return {
 			selected: '',
+			sorting: false,
 			data: [{
 							name: 'SelectionSort',
 							algorithm: 'selectionSort',
@@ -97,7 +101,26 @@ export default {
 		},
 		changeAlgorithm(algorithm) {
 			if (!algorithm.disabled) this.selected = algorithm.algorithm
+		},
+		initSort() {
+			if (this.sorting) {
+				alert('Already sorting')
+				return
+			}
+			if (this.selected !== '') {
+				this.sorting = true
+				eventBus.$emit('sort', 0)
+			}
+			else alert('Please select an algorithm before sorting')
+		},
+		initShuffle() {
+			eventBus.$emit('shuffle', 0)
 		}
+	},
+	created() {
+		eventBus.$on('sorted', id => {
+			this.sorting = false
+		})
 	}
 }
 </script>
@@ -122,6 +145,30 @@ export default {
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
 		border-bottom: 1px solid lightgray;
+		text-align: right;
+		padding: 6px;
+	}
+	.actionBar_btn {
+		width: 28px;
+		height: 100%;
+		display: inline-block;
+		vertical-align: top;
+		text-align: center;
+		line-height: 28px;
+		border: 1px solid lightgray;
+		box-shadow: 0 0 0 0 gold;
+		color: gray;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		cursor: pointer;
+		transition-property: border-color, box-shadow, color;
+		transition-duration: 0.4s, 0.4s, 0.4s;
+		transition-timing-function: ease, ease, ease;
+	}
+	.actionBar_btn:hover {
+		color: #FF9D00;
+		border-color: gold;
+		box-shadow: 0 0 2px 0 gold;
 	}
 	.algorithmBar {
 		width: 100%;
@@ -152,6 +199,10 @@ export default {
 		height: 50px;
 		line-height: 50px;
 	}
+	.algorithmBar_btn:not(.disabled):not(.selected):hover {
+		border-color: #FFDE00;
+		color: #FF9D00;
+	}
 	.algorithmBar_btn_title {
 		margin-right: 5px;
 	}
@@ -159,13 +210,13 @@ export default {
 		color: #00FF00;
 		font-size: 14px;
 	}
-
 	.selected {
-		color: #FF9D00;
+		color: #FF7E00;
 		border-color: gold;
 		box-shadow: 0 0 2px 0 gold;
 	}
 	.disabled {
-		background-color: rgb(233, 233, 233)
+		background-color: rgb(233, 233, 233);
+		cursor: default;
 	}
 </style>
