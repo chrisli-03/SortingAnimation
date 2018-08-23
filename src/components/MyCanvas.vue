@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import eventBus from '@/js/EventBus'
 export default {
 	data () {
 	    return {
@@ -24,7 +25,8 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 5
+			speed: 3,
+			sorting: false
 		}
 	},
 	methods: {
@@ -35,6 +37,11 @@ export default {
 			this.maxHeight = Math.max(...this.data)
 		},
 		async shuffle() {
+			if (this.sorting) {
+				alert('Can\'t shuffle while sorting')
+				return
+			}
+			this.sorting = true
 			let array = this.data
 			let currentIndex = array.length-1, randomIndex
 			while (currentIndex > -1) {
@@ -42,12 +49,17 @@ export default {
 				await this.swap(randomIndex, currentIndex)
 				currentIndex -= 1
 			}
-			this.data = array
+			let _this = this
 			return new Promise((resolve) => {
+				_this.sorting = false
 				resolve(0)
 			})
 		},
 		shuffleInst() {
+			if (this.sorting) {
+				alert('Can\'t shuffle while sorting')
+				return
+			}
 			let array = this.data
 			let currentIndex = array.length-1, randomIndex
 			let promise = new Promise((resolve) => {
@@ -58,6 +70,9 @@ export default {
 				}
 				resolve(0)
 			})
+			this.data = array
+			this.m = -2 // change something in data to trigger vue to reload graph
+			this.m = -1
 			promise.then(() => { return })
 		},
 		swap(m, n) {
@@ -90,26 +105,34 @@ export default {
 		}
 	},
 	computed: {
-		barWidth: function() {
+		barWidth() {
 			return this.panelWidth/this.data.length
 		},
-		heightRatio: function() {
+		heightRatio() {
 			return this.panelHeight/this.maxHeight
 		}
 	},
-	mounted: function() {
-		let newData = this.data
-		/* for (let i = 0; i < 100; i++) {
-			newData.push(i)
-		} */
-		for (let i = 0; i < 100; i++) {
-			newData.push((Math.random() * 10 + 1)|0)
-		}
-		this.data = newData
+	mounted() {
 		window.addEventListener('resize', this.onResize)
 		this.onResize()
 	},
-	beforeDestroy: function() {
+	created() {
+		eventBus.$on('sort', id => {
+			this.sorting = true
+		})
+		eventBus.$on('sorted', id => {
+			this.sorting = false
+		})
+		eventBus.$on('generateData', data => {
+			if (this.sorting) {
+				alert('Can\'t change data while sorting')
+				return
+			}
+			this.data = data
+			this.onResize() // call onResize to make the bars right size
+		})
+	},
+	beforeDestroy() {
 		window.removeEventListener('resize', this.onResize)
 	}
 }
@@ -119,4 +142,5 @@ export default {
 	.bar { fill: gold }
 	.selected { fill: lightskyblue }
 	.hidden { fill: transparent }
+	#my-svg { background-color: white; }
 </style>
