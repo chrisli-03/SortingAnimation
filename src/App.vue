@@ -61,7 +61,7 @@ html, body { width: 100%; height: 100%; padding: 0; margin: 0; }
 	overflow: hidden;
 	padding: 5px;
 	box-sizing: border-box;
-	background-color: lightgray;
+	background-color: rgb(235, 235, 235);
 }
 #canvasPanel {
 	height: calc(100% - 200px);
@@ -83,8 +83,9 @@ html, body { width: 100%; height: 100%; padding: 0; margin: 0; }
 .holder {
 	width: 100%;
 	height: 100%;
-	border: 1px solid coral;
-	border-radius: 10px;
+	border: 1px solid rgb(180, 180, 180);
+	box-shadow: 1px 1px 3px 0 rgb(200, 200, 200);
+	border-radius: 5px;
 	overflow: hidden;
 }
 </style>
