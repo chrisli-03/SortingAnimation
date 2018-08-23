@@ -2,20 +2,21 @@
 
 > A Vue.js project shows the progress of different sorting algorithms
 
-> Sorting Algorithms:
->   Implemented:
->     SelectionSort
->     InsertionSort
->     BubbleSort
->     QuickSort
->   Need Implementation:
->     CocktailShakerSort
->     QuickSort
->     MergeSort
->     HeapSort
->     ShellSort
->     IntroSort
->     Odd-EventSort
->     Merge-InsertionSort
->     SmoothSort
->     TimSort
+> Sorting Algorithms:<br/>
+>   Implemented:<br/>
+>     SelectionSort<br/>
+>     InsertionSort<br/>
+>     BubbleSort<br/>
+>     QuickSort<br/>
+
+>   Need Implementation:<br/>
+>     CocktailShakerSort<br/>
+>     QuickSort<br/>
+>     MergeSort<br/>
+>     HeapSort<br/>
+>     ShellSort<br/>
+>     IntroSort<br/>
+>     Odd-EventSort<br/>
+>     Merge-InsertionSort<br/>
+>     SmoothSort<br/>
+>     TimSort<br/>
