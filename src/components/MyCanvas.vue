@@ -136,6 +136,7 @@ export default {
 				return
 			}
 			this.data = data
+			this.onResize() // call onResize to make the bars right size
 		})
 	},
 	beforeDestroy() {
