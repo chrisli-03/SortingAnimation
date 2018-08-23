@@ -25,7 +25,7 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 3,
+			speed: 10,
 			sorting: false
 		}
 	},

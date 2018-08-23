@@ -1,21 +1,22 @@
-# sagraph
+# Sorting Animations
 
-> A Vue.js project
+> A Vue.js project shows the progress of different sorting algorithms
 
-## Build Setup
+> Sorting Algorithms:<br/>
+>   Implemented:<br/>
+>     SelectionSort<br/>
+>     InsertionSort<br/>
+>     BubbleSort<br/>
+>     QuickSort<br/>
 
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+>   Need Implementation:<br/>
+>     CocktailShakerSort<br/>
+>     QuickSort<br/>
+>     MergeSort<br/>
+>     HeapSort<br/>
+>     ShellSort<br/>
+>     IntroSort<br/>
+>     Odd-EventSort<br/>
+>     Merge-InsertionSort<br/>
+>     SmoothSort<br/>
+>     TimSort<br/>
