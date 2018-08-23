@@ -24,7 +24,7 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 50
+			speed: 10
 		}
 	},
 	methods: {
@@ -36,16 +36,29 @@ export default {
 		},
 		async shuffle() {
 			let array = this.data
-			let currentIndex = array.length, temporaryValue, randomIndex
-			while (0 !== currentIndex) {
+			let currentIndex = array.length-1, randomIndex
+			while (currentIndex > -1) {
 				randomIndex = (Math.random() * array.length)|0
-				currentIndex -= 1;
 				await this.swap(randomIndex, currentIndex)
+				currentIndex -= 1
 			}
 			this.data = array
 			return new Promise((resolve) => {
 				resolve(0)
 			})
+		},
+		shuffleInst() {
+			let array = this.data
+			let currentIndex = array.length-1, randomIndex
+			let promise = new Promise((resolve) => {
+				while (currentIndex > -1) {
+					randomIndex = (Math.random() * array.length)|0;
+					[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
+					currentIndex -= 1
+				}
+				resolve(0)
+			})
+			promise.then(() => { return })
 		},
 		swap(m, n) {
 			this.m = Math.min(m, n)
@@ -71,7 +84,7 @@ export default {
 							clearInterval(interval)
 							resolve(0)
 						}
-					}, 1)
+					}, 1000/60)
 				}
 			})
 		}
@@ -86,9 +99,15 @@ export default {
 	},
 	mounted: function() {
 		let newData = this.data
-		for (let i = 0; i < 100; i++) {
+		for (let i = 1; i < 100; i++) {
 			newData.push(i)
+		} */
+		for (let i = 0; i < 100; i++) {
+			newData.push((Math.random() * 10 + 1)|0)
 		}
+		/* for (let i = 0; i < 100; i++) {
+			newData.push((Math.random() * 10 + 1)|0)
+		} */
 		this.data = newData
 		window.addEventListener('resize', this.onResize)
 		this.onResize()
@@ -103,4 +122,5 @@ export default {
 	.bar { fill: gold }
 	.selected { fill: lightskyblue }
 	.hidden { fill: transparent }
+	#my-svg { background-color: white; }
 </style>
