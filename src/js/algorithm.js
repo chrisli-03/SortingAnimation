@@ -1,47 +1,33 @@
-async function partition(arr, pivot, left, right, swapFn) {
-	let pivotValue = arr[pivot],
-		partitionIndex = left;
-
-	for (let i = left; i < right; i++) {
-		if (arr[i] < pivotValue) {
-			await swapFn(i, partitionIndex)
-			partitionIndex++
-		}
-	}
-	await swapFn(right, partitionIndex)
-	return partitionIndex
-}
-
-async function quickSortHelper(arr, swapFn, left, right) {
-	let len = arr.length,
-		pivot,
-		partitionIndex
-	if (left < right) {
-		pivot = right;
-		partitionIndex = await partition(arr, pivot, left, right, swapFn)
-		await quickSortHelper(arr, swapFn, left, partitionIndex - 1)
-		await quickSortHelper(arr, swapFn, partitionIndex + 1, right)
-	}
-}
+import insertionSortHelper from './InsertionSort'
+import selectionSortHelper from './SelectionSort'
+import bubbleSortHelper from './BubbleSort'
+import cocktailShakerSortHelper from './CocktailShakerSort'
+import quickSortHelper from './QuickSort'
+import mergeSortIPHelper from './MergeSortInPlace'
 
 const algorithms = {
-	bubbleSort: async function(arr, swapFn) {
-		let pivot = arr.length-1
-		let isSorted = false
-		while(!isSorted) {
-			isSorted = true
-			for (let i = 0; i < pivot; i++) {
-				if (arr[i] > arr[i+1]) {
-					await swapFn(i, i+1)
-					isSorted = false
-				}
-			}
-			pivot--
-		}
+	async insertionSort(arr, swapFn) {
+		await insertionSortHelper(arr, swapFn)
 		return true
 	},
-	quickSort: async function(arr, swapFn) {
+	async selectionSort(arr, swapFn) {
+		await selectionSortHelper(arr, swapFn)
+		return true
+	},
+	async bubbleSort(arr, swapFn) {
+		await bubbleSortHelper(arr, swapFn)
+		return true
+	},
+	async cocktailShakerSort(arr, swapFn) {
+		await cocktailShakerSortHelper(arr, swapFn)
+		return true
+	},
+	async quickSort(arr, swapFn) {
 		await quickSortHelper(arr, swapFn, 0, arr.length-1)
+		return true
+	},
+	async mergeSortIP(arr, swapFn) {
+		await mergeSortIPHelper(arr, swapFn, 0, arr.length-1)
 		return true
 	}
 }

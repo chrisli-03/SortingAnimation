@@ -54,6 +54,10 @@ export default {
 				_this.sorting = false
 				resolve(0)
 			})
+			this.data = array
+			this.m = -2 // change something in data to trigger vue to reload graph
+			this.m = -1
+			promise.then(() => { return })
 		},
 		shuffleInst() {
 			if (this.sorting) {
