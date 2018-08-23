@@ -6,28 +6,28 @@ import quickSortHelper from './QuickSort'
 import mergeSortIPHelper from './MergeSortInPlace'
 
 const algorithms = {
-	async insertionSort(arr, swapFn) {
-		await insertionSortHelper(arr, swapFn)
+	async insertionSort(arr, swapFn, peekAt) {
+		await insertionSortHelper(arr, swapFn, peekAt)
 		return true
 	},
-	async selectionSort(arr, swapFn) {
-		await selectionSortHelper(arr, swapFn)
+	async selectionSort(arr, swapFn, peekAt) {
+		await selectionSortHelper(arr, swapFn, peekAt)
 		return true
 	},
-	async bubbleSort(arr, swapFn) {
-		await bubbleSortHelper(arr, swapFn)
+	async bubbleSort(arr, swapFn, peekAt) {
+		await bubbleSortHelper(arr, swapFn, peekAt)
 		return true
 	},
-	async cocktailShakerSort(arr, swapFn) {
-		await cocktailShakerSortHelper(arr, swapFn)
+	async cocktailShakerSort(arr, swapFn, peekAt) {
+		await cocktailShakerSortHelper(arr, swapFn, peekAt)
 		return true
 	},
-	async quickSort(arr, swapFn) {
-		await quickSortHelper(arr, swapFn, 0, arr.length-1)
+	async quickSort(arr, swapFn, peekAt) {
+		await quickSortHelper(arr, 0, arr.length-1, swapFn, peekAt)
 		return true
 	},
-	async mergeSortIP(arr, swapFn) {
-		await mergeSortIPHelper(arr, swapFn, 0, arr.length-1)
+	async mergeSortIP(arr, swapFn, peekAt) {
+		await mergeSortIPHelper(arr, 0, arr.length-1, swapFn, peekAt)
 		return true
 	}
 }

@@ -1,7 +1,7 @@
 <template>
 	<svg id="my-svg" v-bind:width="panelWidth" v-bind:height="panelHeight">
 		<g v-for="(item, index) in data" class="bar" shape-rendering="crispEdges"
-			v-bind:class="{ hidden: index === m || index === n }">
+			v-bind:class="[{ hidden: index === m || index === n }, { peek: peeking === index }]">
 			<rect v-bind="{ 'x':index*barWidth, 'y':panelHeight-item*heightRatio }" v-bind:width="barWidth" v-bind:height="item*heightRatio"/>
     	</g>
 		<g v-if="m >= 0" class="bar selected" shape-rendering="crispEdges">
@@ -25,8 +25,10 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 2,
-			sorting: false
+			step: 10,
+			sorting: false,
+			speed: 240,
+			peeking: -1
 		}
 	},
 	methods: {
@@ -84,9 +86,9 @@ export default {
 			this.n = Math.max(m, n)
 			let _this = this
 			let done = Math.abs(_this.m - _this.n)
-			let speed = done/_this.speed
+			let step = done/_this.step
 			return new Promise((resolve) => {
-				if (_this.diff+speed >= done) {
+				if (_this.diff+step >= done) {
 					[_this.data[_this.m], _this.data[_this.n]] = [_this.data[_this.n], _this.data[_this.m]]
 					_this.m = -1
 					_this.n = -1
@@ -94,7 +96,7 @@ export default {
 					resolve(0)
 				} else {
 					let interval = setInterval(() => {
-						if (_this.diff < done) _this.diff = Math.min(_this.diff+speed, done)
+						if (_this.diff < done) _this.diff = Math.min(_this.diff+step, done)
 						else {
 							[_this.data[_this.m], _this.data[_this.n]] = [_this.data[_this.n], _this.data[_this.m]]
 							_this.m = -1
@@ -103,8 +105,17 @@ export default {
 							clearInterval(interval)
 							resolve(0)
 						}
-					}, 1000/240)
+					}, 1000/_this.speed)
 				}
+			})
+		},
+		peekAt(n) {
+			this.peeking = n
+			let _this = this
+			return new Promise(resolve => {
+				setTimeout(() => {
+					resolve(_this.data[_this.peeking])
+				}, 1000/_this.speed)
 			})
 		}
 	},
@@ -149,5 +160,6 @@ export default {
 	.bar { fill: gold }
 	.selected { fill: lightskyblue }
 	.hidden { fill: transparent }
+	.peek { fill: tomato }
 	#my-svg { background-color: white; }
 </style>
