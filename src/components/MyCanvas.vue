@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import eventBus from '@/js/EventBus'
 export default {
 	data () {
 	    return {
@@ -24,7 +25,8 @@ export default {
 			m: -1,
 			n: -1,
 			diff: 0,
-			speed: 50
+			speed: 2,
+			sorting: false
 		}
 	},
 	methods: {
@@ -35,17 +37,43 @@ export default {
 			this.maxHeight = Math.max(...this.data)
 		},
 		async shuffle() {
-			let array = this.data
-			let currentIndex = array.length, temporaryValue, randomIndex
-			while (0 !== currentIndex) {
-				randomIndex = (Math.random() * array.length)|0
-				currentIndex -= 1;
-				await this.swap(randomIndex, currentIndex)
+			if (this.sorting) {
+				alert('Can\'t shuffle while sorting')
+				return
 			}
-			this.data = array
+			this.sorting = true
+			let array = this.data
+			let currentIndex = array.length-1, randomIndex
+			while (currentIndex > -1) {
+				randomIndex = (Math.random() * array.length)|0
+				await this.swap(randomIndex, currentIndex)
+				currentIndex -= 1
+			}
+			let _this = this
 			return new Promise((resolve) => {
+				_this.sorting = false
 				resolve(0)
 			})
+		},
+		shuffleInst() {
+			if (this.sorting) {
+				alert('Can\'t shuffle while sorting')
+				return
+			}
+			let array = this.data
+			let currentIndex = array.length-1, randomIndex
+			let promise = new Promise((resolve) => {
+				while (currentIndex > -1) {
+					randomIndex = (Math.random() * array.length)|0;
+					[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
+					currentIndex -= 1
+				}
+				resolve(0)
+			})
+			this.data = array
+			this.m = -2 // change something in data to trigger vue to reload graph
+			this.m = -1
+			promise.then(() => { return })
 		},
 		swap(m, n) {
 			this.m = Math.min(m, n)
@@ -71,29 +99,42 @@ export default {
 							clearInterval(interval)
 							resolve(0)
 						}
-					}, 1)
+					}, 1000/240)
 				}
 			})
 		}
 	},
 	computed: {
-		barWidth: function() {
+		barWidth() {
 			return this.panelWidth/this.data.length
 		},
-		heightRatio: function() {
+		heightRatio() {
 			return this.panelHeight/this.maxHeight
 		}
 	},
-	mounted: function() {
-		let newData = this.data
-		for (let i = 0; i < 100; i++) {
-			newData.push(i)
+	mounted() {
+		for (let i = 1; i <= 100; i++) {
+			this.data.push(i)
 		}
-		this.data = newData
 		window.addEventListener('resize', this.onResize)
-		this.onResize()
+		this.onResize() // call onResize to make the bars right size
 	},
-	beforeDestroy: function() {
+	created() {
+		eventBus.$on('sort', id => {
+			this.sorting = true
+		})
+		eventBus.$on('sorted', id => {
+			this.sorting = false
+		})
+		eventBus.$on('generateData', data => {
+			if (this.sorting) {
+				alert('Can\'t change data while sorting')
+				return
+			}
+			this.data = data
+		})
+	},
+	beforeDestroy() {
 		window.removeEventListener('resize', this.onResize)
 	}
 }
@@ -103,4 +144,5 @@ export default {
 	.bar { fill: gold }
 	.selected { fill: lightskyblue }
 	.hidden { fill: transparent }
+	#my-svg { background-color: white; }
 </style>
