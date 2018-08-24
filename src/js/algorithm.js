@@ -5,10 +5,11 @@ import cocktailShakerSortHelper from './CocktailShakerSort'
 import quickSortHelper from './QuickSort'
 import mergeSortIPHelper from './MergeSortInPlace'
 import heapSortHelper from './HeapSort'
+import shellSortHelper from './ShellSort'
 
 const algorithms = {
-	async insertionSort(arr, swapFn, peekAt) {
-		await insertionSortHelper(arr, swapFn, peekAt)
+	async insertionSort(arr, swapFn, peekAt, assignAt) {
+		await insertionSortHelper(arr, swapFn, peekAt, assignAt)
 		return true
 	},
 	async selectionSort(arr, swapFn, peekAt) {
@@ -27,12 +28,16 @@ const algorithms = {
 		await quickSortHelper(arr, 0, arr.length-1, swapFn, peekAt)
 		return true
 	},
-	async mergeSortIP(arr, swapFn, peekAt) {
-		await mergeSortIPHelper(arr, 0, arr.length-1, swapFn, peekAt)
+	async mergeSortIP(arr, swapFn, peekAt, assignAt) {
+		await mergeSortIPHelper(arr, 0, arr.length-1, swapFn, peekAt, assignAt)
 		return true
 	},
 	async heapSort(arr, swapFn, peekAt) {
 		await heapSortHelper(arr, swapFn, peekAt)
+		return true
+	},
+	async shellSort(arr, swapFn, peekAt, assignAt) {
+		await shellSortHelper(arr, swapFn, peekAt, assignAt)
 		return true
 	}
 }

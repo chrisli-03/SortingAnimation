@@ -1,7 +1,7 @@
 <template>
 	<svg id="my-svg" v-bind:width="panelWidth" v-bind:height="panelHeight">
 		<g v-for="(item, index) in data" class="bar" shape-rendering="crispEdges"
-			v-bind:class="[{ hidden: index === m || index === n }, { peek: peeking === index }]">
+			v-bind:class="[{ hidden: index === m || index === n }, { peek: peeking === index }, { assign: assigning === index }]">
 			<rect v-bind="{ 'x':index*barWidth, 'y':panelHeight-item*heightRatio }" v-bind:width="barWidth" v-bind:height="item*heightRatio"/>
     	</g>
 		<g v-if="m >= 0" class="bar selected" shape-rendering="crispEdges">
@@ -24,11 +24,12 @@ export default {
 			maxHeight: 1,
 			m: -1,
 			n: -1,
+			peeking: -1,
+			assigning: -1,
 			diff: 0,
-			step: 10,
+			step: 2,
 			sorting: false,
-			speed: 240,
-			peeking: -1
+			speed: 400
 		}
 	},
 	methods: {
@@ -93,7 +94,9 @@ export default {
 					_this.m = -1
 					_this.n = -1
 					_this.diff = 0
-					resolve(0)
+					setTimeout(() => {
+						resolve(0)
+					}, 1000/_this.speed)
 				} else {
 					let interval = setInterval(() => {
 						if (_this.diff < done) _this.diff = Math.min(_this.diff+step, done)
@@ -112,11 +115,20 @@ export default {
 		peekAt(n) {
 			this.peeking = n
 			let _this = this
-			let step = _this.step
 			return new Promise(resolve => {
 				setTimeout(() => {
 					resolve(_this.data[_this.peeking])
-				}, step*1000/_this.speed)
+				}, 1000/(_this.speed*2))
+			})
+		},
+		assignAt(i, n) {
+			this.data[i] = n
+			this.assigning = i
+			let _this = this
+			return new Promise(resolve => {
+				setTimeout(() => {
+					resolve(0)
+				}, 1000/(_this.speed*2))
 			})
 		}
 	},
@@ -141,6 +153,8 @@ export default {
 		})
 		eventBus.$on('sorted', id => {
 			this.sorting = false
+			this.peeking = -1
+			this.assigning = -1
 		})
 		eventBus.$on('generateData', data => {
 			if (this.sorting) {
@@ -162,5 +176,6 @@ export default {
 	.selected { fill: lightskyblue }
 	.hidden { fill: transparent }
 	.peek { fill: tomato }
+	.assign { fill: #39FF00 }
 	#my-svg { background-color: white; }
 </style>

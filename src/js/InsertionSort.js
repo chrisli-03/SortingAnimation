@@ -1,14 +1,17 @@
-async function insertionSort(arr, swapFn, peekAt) {
+async function insertionSort(arr, swapFn, peekAt, assignAt) {
 	for (let i = 1; i < arr.length; i++) {
 		let pivot = i
-		for (let j = i-1; j >= 0; j--) {
-			if (await peekAt(j) > await peekAt(pivot)) {
-				await swapFn(pivot, j)
-				pivot = j
+		let temp = await peekAt(pivot)
+		let j = i-1
+		while (j >= 0) {
+			let n = await peekAt(j)
+			if (n > temp) {
+				await assignAt(j--+1, n)
 			} else {
 				break
 			}
 		}
+		await assignAt(j+1, temp)
 	}
 }
 
