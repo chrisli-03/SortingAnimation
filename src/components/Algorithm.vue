@@ -1,6 +1,7 @@
 <template>
 	<div id="algorithmPanel">
 		<div class="actionBar">
+			<div class="actionBar_btn" v-bind:class="{ selected: infoMode }" v-on:click="toggleInfo">A</div>
 			<div class="actionBar_btn" v-on:click="initShuffle">S</div>
 			<div class="actionBar_btn" v-on:click="initSort">></div>
 		</div>
@@ -22,6 +23,7 @@ export default {
     return {
 			selected: '',
 			sorting: false,
+			infoMode: false,
 			data: [{
 							name: 'SelectionSort',
 							algorithm: 'selectionSort',
@@ -56,7 +58,7 @@ export default {
 							name: 'HeapSort',
 							algorithm: 'heapSort',
 							averageTime: '',
-							disabled: true
+							disabled: false
 						},{
 							name: 'ShellSort',
 							algorithm: 'shellSort',
@@ -115,10 +117,16 @@ export default {
 		},
 		initShuffle() {
 			eventBus.$emit('shuffle', 0)
+		},
+		toggleInfo() {
+			this.infoMode = !this.infoMode
 		}
 	},
 	created() {
-		eventBus.$on('sorted', id => {
+		eventBus.$on('sorted', time => {
+			for (let algorithm in this.data) {
+				if (this.data[algorithm].algorithm === time.name) this.data[algorithm].averageTime = time.time
+			}
 			this.sorting = false
 		})
 	}

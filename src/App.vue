@@ -28,8 +28,12 @@ export default {
 	methods: {
 		async sort() {
 			let selected = this.$refs.Algorithm.getAlgorithm()
-			if (await selected(this.$refs.MyCanvas.data, this.$refs.MyCanvas.swap)) {
-				eventBus.$emit('sorted', 0)
+			let myCanvas = this.$refs.MyCanvas
+			let beginTime = new Date().getTime()
+			if (await selected(myCanvas.data, myCanvas.swap, myCanvas.peekAt)) {
+				let endTime = new Date().getTime()
+				let diffTime = endTime - beginTime
+				eventBus.$emit('sorted', { name: selected.name, time: diffTime })
 				alert('done')
 			}
 		},
