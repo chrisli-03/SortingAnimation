@@ -12,9 +12,9 @@
 >     MergeSort<br/>
 >     QuickSort<br/>
 >     HeapSort<br/>
+>     ShellSort<br/>
 
 >   Need Implementation:<br/>
->     ShellSort<br/>
 >     IntroSort<br/>
 >     Odd-EventSort<br/>
 >     Merge-InsertionSort<br/>
