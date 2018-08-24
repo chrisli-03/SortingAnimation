@@ -27,7 +27,7 @@ export default {
 			diff: 0,
 			step: 10,
 			sorting: false,
-			speed: 1000,
+			speed: 240,
 			peeking: -1
 		}
 	},

@@ -1,8 +1,8 @@
-async function selectionSort(arr, swapFn) {
+async function selectionSort(arr, swapFn, peekAt) {
 	for (let i = 0; i < arr.length-1; i++) {
 		let min = i
 		for (let j = i; j < arr.length; j++) {
-			if (arr[min] > arr[j]) {
+			if (await peekAt(min) > await peekAt(j)) {
 				min = j
 			}
 		}
