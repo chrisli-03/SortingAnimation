@@ -112,10 +112,11 @@ export default {
 		peekAt(n) {
 			this.peeking = n
 			let _this = this
+			let step = _this.step
 			return new Promise(resolve => {
 				setTimeout(() => {
 					resolve(_this.data[_this.peeking])
-				}, 1000/_this.speed)
+				}, step*1000/_this.speed)
 			})
 		}
 	},
