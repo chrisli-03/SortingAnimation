@@ -11,9 +11,9 @@
 >     CocktailShakerSort<br/>
 >     MergeSort<br/>
 >     QuickSort<br/>
+>     HeapSort<br/>
 
 >   Need Implementation:<br/>
->     HeapSort<br/>
 >     ShellSort<br/>
 >     IntroSort<br/>
 >     Odd-EventSort<br/>
