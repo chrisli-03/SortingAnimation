@@ -1,7 +1,7 @@
 # Sorting Animations
 
 > A Vue.js project shows the progress of different sorting algorithms<br/>
-> This is meant to show how each algorithm sorts, the time is very inaccurate as everything is done by swapping elements
+> This is meant to show how each algorithm sorts, the time is very inaccurate due to imprefection in the algorithm I wrote
 
 > Sorting Algorithms:<br/>
 >   Implemented:<br/>
