@@ -30,7 +30,7 @@ export default {
 			let selected = this.$refs.Algorithm.getAlgorithm()
 			let myCanvas = this.$refs.MyCanvas
 			let beginTime = new Date().getTime()
-			if (await selected(myCanvas.data, myCanvas.swap, myCanvas.peekAt)) {
+			if (await selected(myCanvas.data, myCanvas.swap, myCanvas.peekAt, myCanvas.assignAt)) {
 				let endTime = new Date().getTime()
 				let diffTime = endTime - beginTime
 				eventBus.$emit('sorted', { name: selected.name, time: diffTime })

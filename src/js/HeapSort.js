@@ -19,10 +19,13 @@ async function siftDown(arr, start, end, swapFn, peekAt) {
 	while (iLeftChild(root) <= end) {
 		let child = iLeftChild(root)
 		let swap = root
-		if (await peekAt(swap) < await peekAt(child)) {
+		let val_swap = await peekAt(swap)
+		let val_child = await peekAt(child)
+		if (val_swap < val_child) {
 			swap = child
+			val_swap = val_child
 		}
-		if (child+1 <= end && await peekAt(swap) < await peekAt(child+1)) {
+		if (child+1 <= end && val_swap < await peekAt(child+1)) {
 			swap = child+1
 		}
 		if (swap === root) {

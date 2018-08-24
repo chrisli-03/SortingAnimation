@@ -63,7 +63,7 @@ export default {
 							name: 'ShellSort',
 							algorithm: 'shellSort',
 							averageTime: '',
-							disabled: true
+							disabled: false
 						},{
 							name: 'IntroSort',
 							algorithm: 'introSort',

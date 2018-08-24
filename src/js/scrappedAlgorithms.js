@@ -1,3 +1,4 @@
+// quicksort
 async function partition(arr, pivot, left, right, swapFn) {
 	let pivotValue = arr[pivot],
 		partitionIndex = left;
@@ -24,6 +25,7 @@ async function quickSortHelper(arr, swapFn, left, right) {
 	}
 }
 
+// mergesort
 async function merge(arr, left, mid, right, swapFn) {
 	let left1 = left,
 			right1 = mid,
@@ -39,4 +41,46 @@ async function merge(arr, left, mid, right, swapFn) {
 			}
 		}
 	}
+}
+
+
+//shellsort
+async function partition(arr, gap, swapFn, peekAt) {
+  for (let i = 0; i < gap; i++) {
+    let left = i, right = i + gap
+    while (right < arr.length) {
+      let left_val = await peekAt(left)
+      let right_val = await peekAt(right)
+      if (left_val > right_val) await swapFn(left, right)
+      left = right
+      right = right + gap
+    }
+  }
+}
+
+async function insertionSort(arr, swapFn, peekAt, assignAt) {
+	for (let i = 1; i < arr.length; i++) {
+		let pivot = i
+		let temp = await peekAt(pivot)
+		let j = i-1
+		while (j >= 0) {
+			let n = await peekAt(j)
+			if (n > temp) {
+				await assignAt(j--+1, n)
+			} else {
+				break
+			}
+		}
+		await assignAt(j+1, temp)
+	}
+}
+
+async function shellSort(arr, swapFn, peekAt, assignAt) {
+  let gap = (arr.length/2)|0
+  while (gap > 0) {
+    console.log(gap)
+    await partition(arr, gap, swapFn, peekAt)
+    gap = (gap/2)|0
+  }
+  await insertionSort(arr, swapFn, peekAt, assignAt)
 }
