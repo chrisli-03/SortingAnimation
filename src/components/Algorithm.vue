@@ -1,6 +1,7 @@
 <template>
 	<div id="algorithmPanel">
 		<div class="actionBar">
+			<div class="actionBar_btn" v-bind:class="{ selected: infoMode }" v-on:click="toggleInfo">A</div>
 			<div class="actionBar_btn" v-on:click="initShuffle">S</div>
 			<div class="actionBar_btn" v-on:click="initSort">></div>
 		</div>
@@ -15,13 +16,14 @@
 </template>
 
 <script>
-import algorithms from '@/js/algorithm.js'
+import algorithms from '@/js/Algorithm.js'
 import eventBus from '@/js/EventBus'
 export default {
 	data () {
     return {
 			selected: '',
 			sorting: false,
+			infoMode: false,
 			data: [{
 							name: 'SelectionSort',
 							algorithm: 'selectionSort',
@@ -41,27 +43,27 @@ export default {
 							name: 'CocktailShakerSort',
 							algorithm: 'cocktailShakerSort',
 							averageTime: '',
-							disabled: true
+							disabled: false
 						},{
 							name: 'QuickSort',
 							algorithm: 'quickSort',
 							averageTime: '',
 							disabled: false
 						},{
-							name: 'MergeSort',
-							algorithm: 'mergeSort',
+							name: 'MergeSort(IP)',
+							algorithm: 'mergeSortIP',
 							averageTime: '',
-							disabled: true
+							disabled: false
 						},{
 							name: 'HeapSort',
 							algorithm: 'heapSort',
 							averageTime: '',
-							disabled: true
+							disabled: false
 						},{
 							name: 'ShellSort',
 							algorithm: 'shellSort',
 							averageTime: '',
-							disabled: true
+							disabled: false
 						},{
 							name: 'IntroSort',
 							algorithm: 'introSort',
@@ -115,10 +117,16 @@ export default {
 		},
 		initShuffle() {
 			eventBus.$emit('shuffle', 0)
+		},
+		toggleInfo() {
+			this.infoMode = !this.infoMode
 		}
 	},
 	created() {
-		eventBus.$on('sorted', id => {
+		eventBus.$on('sorted', time => {
+			for (let algorithm in this.data) {
+				if (this.data[algorithm].algorithm === time.name) this.data[algorithm].averageTime = time.time
+			}
 			this.sorting = false
 		})
 	}

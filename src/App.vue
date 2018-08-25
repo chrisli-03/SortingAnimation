@@ -28,8 +28,12 @@ export default {
 	methods: {
 		async sort() {
 			let selected = this.$refs.Algorithm.getAlgorithm()
-			if (await selected(this.$refs.MyCanvas.data, this.$refs.MyCanvas.swap)) {
-				eventBus.$emit('sorted', 0)
+			let myCanvas = this.$refs.MyCanvas
+			let beginTime = new Date().getTime()
+			if (await selected(myCanvas.data, myCanvas.swap, myCanvas.peekAt, myCanvas.assignAt)) {
+				let endTime = new Date().getTime()
+				let diffTime = endTime - beginTime
+				eventBus.$emit('sorted', { name: selected.name, time: diffTime })
 				alert('done')
 			}
 		},
@@ -61,7 +65,7 @@ html, body { width: 100%; height: 100%; padding: 0; margin: 0; }
 	overflow: hidden;
 	padding: 5px;
 	box-sizing: border-box;
-	background-color: lightgray;
+	background-color: rgb(235, 235, 235);
 }
 #canvasPanel {
 	height: calc(100% - 200px);
@@ -83,8 +87,9 @@ html, body { width: 100%; height: 100%; padding: 0; margin: 0; }
 .holder {
 	width: 100%;
 	height: 100%;
-	border: 1px solid coral;
-	border-radius: 10px;
+	border: 1px solid rgb(180, 180, 180);
+	box-shadow: 1px 1px 3px 0 rgb(200, 200, 200);
+	border-radius: 5px;
 	overflow: hidden;
 }
 </style>
