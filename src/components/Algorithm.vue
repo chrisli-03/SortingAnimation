@@ -1,100 +1,110 @@
 <template>
 	<div id="algorithmPanel">
 		<div class="actionBar">
-			<div class="actionBar_btn" v-bind:class="{ selected: infoMode }" v-on:click="toggleInfo">A</div>
-			<div class="actionBar_btn" v-on:click="initShuffle">S</div>
-			<div class="actionBar_btn" v-on:click="initSort">></div>
+			<div class="actionBar_btn" v-bind:class="{ selected: infoMode }" v-on:click="toggleInfo">Info</div>
+			<div class="actionBar_btn" v-on:click="initShuffle">Shuffle</div>
+			<div class="actionBar_btn" v-on:click="initSort">Sort</div>
 		</div>
 		<div class="algorithmBar">
-			<div class="algorithmBar_btn" v-for="(item, index) in data"
-						v-bind:class="[{ selected: selected===item.algorithm }, { disabled: item.disabled }]" v-on:click="changeAlgorithm(item)">
+			<div class="algorithmBar_btn" v-for="(item, index) in data" v-bind:algname="item.algorithm"
+										v-bind:class="[{ selected: selected===item.algorithm }, { disabled: item.disabled }]"
+										v-on:mousemove="showDetail" v-on:mouseout="hideDetail" v-on:click="changeAlgorithm(item)">
 				<div class="algorithmBar_btn_title">{{item.name}}</div>
 				<div class="algorithmBar_btn_time" v-if="item.averageTime != ''">{{item.averageTime}}<span style="margin-left: 1px;"></span>ms</div>
 			</div>
+		</div>
+		<div class="algorithmInfo">
+			<b>{{info.name}}</b><br/>
+			Worst Case Performance: O({{info.worstCase}})<br/>
+			Best Case Performance: O({{info.bestCase}})<br/>
+			Average Performance: O({{info.average}})<br/>
+			Stable: {{info.stable}}
 		</div>
 	</div>
 </template>
 
 <script>
 import algorithms from '@/js/Algorithm.js'
+import algorithmInfo from '@/js/AlgorithmInfo.js'
 import eventBus from '@/js/EventBus'
 export default {
 	data () {
     return {
 			selected: '',
+			info: {},
 			sorting: false,
 			infoMode: false,
 			data: [{
-							name: 'SelectionSort',
-							algorithm: 'selectionSort',
-							averageTime: '',
-							disabled: false
-						},{
-							name: 'InsertionSort',
-							algorithm: 'insertionSort',
-							averageTime: '',
-							disabled: false
-						},{
-							name: 'BubbleSort',
-							algorithm: 'bubbleSort',
-							averageTime: '',
-							disabled: false
-						},{
-							name: 'CocktailShakerSort',
-							algorithm: 'cocktailShakerSort',
-							averageTime: '',
-							disabled: false
-						},{
-							name: 'QuickSort',
-							algorithm: 'quickSort',
-							averageTime: '',
-							disabled: false
-						},{
-							name: 'MergeSort(IP)',
-							algorithm: 'mergeSortIP',
-							averageTime: '',
-							disabled: false
-						},{
-							name: 'HeapSort',
-							algorithm: 'heapSort',
-							averageTime: '',
-							disabled: false
-						},{
-							name: 'ShellSort',
-							algorithm: 'shellSort',
-							averageTime: '',
-							disabled: false
-						},{
-							name: 'IntroSort',
-							algorithm: 'introSort',
-							averageTime: '',
-							disabled: true
-						},{
-							name: 'Odd-EvenSort',
-							algorithm: 'oddEvenSort',
-							averageTime: '',
-							disabled: true
-						},{
-							name: 'CycleSort',
-							algorithm: 'cycleSort',
-							averageTime: '',
-							disabled: true
-						},{
-							name: 'Merge-InsertionSort',
-							algorithm: 'mergeInsertionSort',
-							averageTime: '',
-							disabled: true
-						},{
-							name: 'SmoothSort',
-							algorithm: 'smoothSort',
-							averageTime: '',
-							disabled: true
-						},{
-							name: 'TimSort',
-							algorithm: 'timSort',
-							averageTime: '',
-							disabled: true
-						}]
+						name: 'SelectionSort',
+						algorithm: 'selectionSort',
+						averageTime: '',
+						disabled: false
+					},{
+						name: 'InsertionSort',
+						algorithm: 'insertionSort',
+						averageTime: '',
+						disabled: false
+					},{
+						name: 'BubbleSort',
+						algorithm: 'bubbleSort',
+						averageTime: '',
+						disabled: false
+					},{
+						name: 'CocktailShakerSort',
+						algorithm: 'cocktailShakerSort',
+						averageTime: '',
+						disabled: false
+					},{
+						name: 'QuickSort',
+						algorithm: 'quickSort',
+						averageTime: '',
+						disabled: false
+					},{
+						name: 'MergeSort(IP)',
+						algorithm: 'mergeSortIP',
+						averageTime: '',
+						disabled: false
+					},{
+						name: 'HeapSort',
+						algorithm: 'heapSort',
+						averageTime: '',
+						disabled: false
+					},{
+						name: 'ShellSort',
+						algorithm: 'shellSort',
+						averageTime: '',
+						disabled: false
+					},{
+						name: 'IntroSort',
+						algorithm: 'introSort',
+						averageTime: '',
+						disabled: true
+					},{
+						name: 'Odd-EvenSort',
+						algorithm: 'oddEvenSort',
+						averageTime: '',
+						disabled: true
+					},{
+						name: 'CycleSort',
+						algorithm: 'cycleSort',
+						averageTime: '',
+						disabled: true
+					},{
+						name: 'Merge-InsertionSort',
+						algorithm: 'mergeInsertionSort',
+						averageTime: '',
+						disabled: true
+					},{
+						name: 'SmoothSort',
+						algorithm: 'smoothSort',
+						averageTime: '',
+						disabled: true
+					},{
+						name: 'TimSort',
+						algorithm: 'timSort',
+						averageTime: '',
+						disabled: true
+					}]
 		}
 	},
 	methods: {
@@ -120,6 +130,21 @@ export default {
 		},
 		toggleInfo() {
 			this.infoMode = !this.infoMode
+		},
+		showDetail(event) {
+			//if (!this.infoMode) return
+			let element = event.currentTarget
+			let algorithm = event.currentTarget.getAttribute('algname')
+			let algorithmInfoPanel = document.querySelector('.algorithmInfo')
+			algorithmInfoPanel.style.display = 'block'
+			this.info = algorithmInfo[algorithm]
+			algorithmInfoPanel.style.top = element.offsetTop - algorithmInfoPanel.clientHeight - 1 + 'px'
+			algorithmInfoPanel.style.left = element.offsetLeft + 'px'
+		},
+		hideDetail(event) {
+			let algorithmInfoPanel = document.querySelector('.algorithmInfo')
+			algorithmInfoPanel.style.display = 'none'
+			this.info = {}
 		}
 	},
 	created() {
@@ -143,6 +168,7 @@ export default {
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
 		user-select: none;
+		overflow: visible;
 	}
 	.actionBar {
 		width: 100%;
@@ -157,12 +183,13 @@ export default {
 		padding: 6px;
 	}
 	.actionBar_btn {
-		width: 28px;
+		width: auto;
 		height: 100%;
 		display: inline-block;
 		vertical-align: top;
 		text-align: center;
 		line-height: 28px;
+		padding: 0 5px;
 		border: 1px solid lightgray;
 		box-shadow: 0 0 0 0 gold;
 		color: gray;
@@ -217,6 +244,16 @@ export default {
 	.algorithmBar_btn_time {
 		color: #00FF00;
 		font-size: 14px;
+	}
+	.algorithmInfo {
+		position: absolute;
+		border: 1px solid gold;
+		background-color: white;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		z-index: 1000;
+		white-space: nowrap;
+		padding: 5px;
 	}
 	.selected {
 		color: #FF7E00;

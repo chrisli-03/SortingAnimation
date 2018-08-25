@@ -4,7 +4,7 @@
 			<div class="holder"><my-canvas ref="MyCanvas"/></div>
 		</div>
 		<div id="algorithmPanel" class="panel">
-			<div class="holder"><algorithm ref="Algorithm"/></div>
+			<div class="holder" style="overflow: visible;"><algorithm ref="Algorithm"/></div>
 		</div>
 		<div id="dataPanel" class="panel">
 			<div class="holder"><my-data ref="MyData"/></div>
