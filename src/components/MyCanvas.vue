@@ -27,9 +27,9 @@ export default {
 			peeking: -1,
 			assigning: -1,
 			diff: 0,
-			step: 2,
+			step: 1,
 			sorting: false,
-			speed: 400
+			speed: 1000
 		}
 	},
 	methods: {
