@@ -20,3 +20,4 @@
 >     Merge-InsertionSort<br/>
 >     SmoothSort<br/>
 >     TimSort<br/>
+>     Show runtime for all algorithms<br/>
