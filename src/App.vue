@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import MyCanvas from './components/MyCanvas'
-import Algorithm from './components/Algorithm'
-import MyData from './components/Data'
-import eventBus from './js/EventBus'
+import MyCanvas from '@/components/MyCanvas'
+import Algorithm from '@/components/Algorithm'
+import MyData from '@/components/Data'
+import eventBus from '@/js/EventBus'
 
 export default {
 	name: 'App',

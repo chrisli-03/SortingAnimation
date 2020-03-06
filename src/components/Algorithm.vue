@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import algorithms from '../js/Algorithm.js'
-import algorithmInfo from '../js/AlgorithmInfo.js'
-import eventBus from '../js/EventBus'
+import algorithms from '@/js/Algorithm.js'
+import algorithmInfo from '@/js/AlgorithmInfo.js'
+import eventBus from '@/js/EventBus'
 export default {
 	data () {
     return {
